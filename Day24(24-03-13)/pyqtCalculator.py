@@ -14,10 +14,10 @@ class MyApp(QMainWindow):
     def __init__(self):
         super().__init__()
         self.vboxes = []
-        self.vboxes.append(self.setVBox())
+        self.vboxes.append(self.setCalculatorVBox())
         self.initUI()
 
-    def setVBox(self):
+    def setCalculatorVBox(self):
         hbox_structure_text = [
             "[] + [] = [] {계산}",
             # "[] - [] = [] {계산}",
