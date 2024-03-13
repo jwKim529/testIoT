@@ -13,27 +13,31 @@ class MyApp(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        self.vboxes = []
+        self.vboxes.append(self.setVBox())
         self.initUI()
 
-    def initUI(self):
-        box_text = [
+    def setVBox(self):
+        hbox_structure_text = [
             "[] + [] = [] {계산}",
-            #"[] - [] = [] {계산}",
-            #"[] * [] = [] {계산}",
-            #"[] / [] = [] {계산}",
+            # "[] - [] = [] {계산}",
+            # "[] * [] = [] {계산}",
+            # "[] / [] = [] {계산}",
         ]
-
         vbox = QVBoxLayout()
         vbox.addStretch(1)
-
-        for txt in box_text :
+        for txt in hbox_structure_text:
             new_hbox = self.createHBox(txt)
             vbox.addLayout(new_hbox)
         vbox.addStretch(1)
 
-        wid1 = QWidget(self)
-        self.setCentralWidget(wid1)
-        wid1.setLayout(vbox)
+        return vbox
+
+    def initUI(self):
+        for vbox in self.vboxes:
+            wid1 = QWidget(self)
+            self.setCentralWidget(wid1)
+            wid1.setLayout(vbox)
 
         self.setWindowTitle('MyWindow')
         self.setGeometry(100,100,800,400)
@@ -74,13 +78,13 @@ class MyApp(QMainWindow):
         hbox.addStretch(1)
         return hbox
 
-    def calculate(self, structs):
+    def calculate(self, structs_dict):
         answer = 0
         operator = '+'
-        opercur = 0
-        resLabel = structs['lineedit'][-1]
-        for targetlabel in structs['lineedit'][:-1] :
-            txt = targetlabel.text()
+        operator_cursor = 0
+        result_label = structs_dict['lineedit'][-1]
+        for target_label in structs_dict['lineedit'][:-1] :
+            txt = target_label.text()
             if txt.isnumeric() and operator in ['+','-','*','/'] :
                 if operator == '+' :
                     answer += int(txt)
@@ -90,12 +94,12 @@ class MyApp(QMainWindow):
                     answer *= int(txt)
                 elif operator == '/' :
                     answer /= int(txt)
-                operator = structs['qlabel'][opercur]
-                opercur+=1
+                operator = structs_dict['qlabel'][operator_cursor]
+                operator_cursor+=1
             else :
-                resLabel.setText("잘못된 입력입니다. 다시 확인해주세요.")
+                result_label.setText("잘못된 입력입니다. 다시 확인해주세요.")
                 return 0
-        resLabel.setText(str(answer))
+        result_label.setText(str(answer))
 
 if __name__ == '__main__':
    app = QApplication(sys.argv)
