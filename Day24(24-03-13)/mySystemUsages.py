@@ -70,14 +70,14 @@ if __name__ == "__main__" :
     pcUse = SystemUsageData()
     dbC = DBControl(logDBName, dbdata['tablename'], dbdata['columns'])
 
-    for i in range(3 * 12):
+    for i in range(12):
         dbC.writeData(dbdata['tablename'],dbdata['columns'].keys(),(pcUse.getNow(),pcUse.getCPULog(), pcUse.getMemoryLog()))
-        time.sleep(5)
+        time.sleep(1)
 
     ctData = []
     cpuData = []
     memData = []
-    for cTime, uCpu, uMemory in pcUse.readData(dbdata['tablename'],dbdata['columns'].keys()) :
+    for cTime, uCpu, uMemory in dbC.readData(dbdata['tablename'],dbdata['columns'].keys()) :
         ctData.append(cTime)
         cpuData.append(uCpu)
         memData.append(uMemory)
@@ -92,4 +92,4 @@ if __name__ == "__main__" :
     plt.savefig(f'<{ctData[0]}~{ctData[-1]}> UsageChart.png')
 
     # DB 연결종료
-    pcUse.closeDB()
+    dbC.closeDB()
