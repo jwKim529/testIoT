@@ -73,8 +73,6 @@ class MyApp(QMainWindow):
                 hbox.addWidget(new)
         hbox.addStretch(1)
         return hbox
-        pass
-
 
     def calculate(self, structs):
         answer = 0
